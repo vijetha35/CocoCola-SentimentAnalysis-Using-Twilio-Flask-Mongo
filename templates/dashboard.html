@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title> Survey DashBoard </title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <link href="{{ url_for('static',filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+   
+   
+    <link href="{{ url_for('static',filename='dist/css/sb-admin-2.css') }}" rel="stylesheet">
+
+   
+    <link href="{{ url_for('static',filename='vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+
+   
+<script> 
+
+function enableDisable(name)
+{
+
+       ele= document.getElementById(name);
+       ele.focus();
+       ele.removeAttribute('readonly');
+
+}
+function addReadOnly(name)
+{
+
+       ele= document.getElementById(name);
+      
+       ele.setAttribute('readonly', 'readonly');
+
+}
+</script>
+
+<style>
+#page-wrapper{
+    margin-left: 310px;
+    margin-top:50px;
+    width: 600px;
+    width: 1050px;
+}
+.input-hide{border: 0px}
+.btn-secondary.active{
+    border: 2px solid #42f465 ; 
+    background-color: #9effb1 ;
+
+}
+.thesidebar{
+     width: 300px;
+    
+    margin-top: 59px;
+
+     background-color: white;
+}
+.btn-group{
+    border :1px solid gray; 
+    border-radius: 5px;
+}
+.panel-body .dashboard{
+
+    margin-left :50px;
+}
+
+.edittextPanel{
+
+    box-shadow: 2px 2px 2px grey;
+    border-radius: 15px;
+}
+#wrapper{
+    background-color: #f8f8f8;
+}
+</style>
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        
+        <nav class="navbar navbar-default navbar-static-top" style="background-color: #3592ba;" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/" style="color:white;"><i class="material-icons">crop_3_2</i></a>
+            </div>
+              
+            <ul class="nav navbar-top-links navbar-right">
+     
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span style="color:white"> Jackson T.<i class="fa fa-caret-down"> <i class="material-icons">account_circle </i>
+                         </i> </span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"> <i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    
+                </li>
+              
+            </ul>
+              {% if name %}
+             <div class="alert alert-success alert-dismissible">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Success!</strong> The survey message ( Reference : {{sid}}) was sent to {{name}}. 
+  </div>
+  {% endif %}
+            
+<form action='/send_survey_sms' name="myform" method="POST" >
+            <div class="navbar-default sidebar thesidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form leftBar">
+                                 <label> <i class="fa fa-calendar-o"> </i> Enter Customer Phone Number:</label>
+                                <input type="text" required name="phoneNumber" type="tel" class="form-control" placeholder="+1(805)12345678"/>
+                            
+                                
+                                          
+                            </div>
+                           <br/>
+                             <div class="input-group custom-search-form leftBar">
+                                 <label> <i class="fa fa-users"></i>Product Type:</label>
+                               <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                              <label class="btn btn-secondary active">
+                                <input type="radio" name="options" value="Lime" id="option1" autocomplete="off" checked> Lime
+                              </label>
+                              <label class="btn btn-secondary">
+                                <input type="radio" name="options" value="Cherry" id="option2" autocomplete="off" > Cherry
+                              </label>
+                              <label class="btn btn-secondary">
+                                <input type="radio" name="options" value="Vanilla" id="option3" autocomplete="off"> Vanilla
+                              </label>
+</div>
+                             </div>
+                              <br/>
+                              <div class="input-group custom-search-form leftBar">
+                                <label> <i class="fa fa-building"></i> Customer Name:</label>
+                                <input  required name="customerName"
+                                 type="text" class="form-control" placeholder="Sarah"/>  
+                              </div>
+                            <br/>
+                            <div align="center">
+                            <button id="sendSMS" class="btn btn-warning " type="submit"  style=" text-align:center;border-radius: 35px" >Send SMS </button>
+                        </div>
+                        </li>
+                       
+                    </ul>
+                </div>
+             
+            </div>
+           
+        </nav>
+
+        <div id="page-wrapper" class="panel panel-default thepanel" >
+            <div class="row panel-body dashboard">
+                <div class=" row col-lg-10">
+                   <h5> First Automated Message </h5>
+                   <div class="panel panel-default" > <div class="panel-body edittextPanel" > <input onblur="addReadOnly('msgformat'); " readonly required class="col-lg-11 input-hide" id="msgformat" name="format" value=" Hi &lt;firstName&gt; , I saw that your &lt;productType&gt; was delivered. How are you enjoying it so far?" > </input> <button class="btn btn-warning col-lg-1"  style=" text-align:center;border-radius: 35px" type="button" id="editFormat" onclick="enableDisable('msgformat')"  > Edit  </button> </div> </div>
+                </div>
+                 
+                 <div class="row col-lg-10 ">
+                   <h5> if Positive Response <i class="fa fa-smile-o"> </i> </h5>
+                   <div class="panel panel-default" > <div class="panel-body edittextPanel" > <input readonly required class="col-lg-11 input-hide" id="pos" name="positive" value=" Great, can you describe what you love most about &lt;productType&gt;" onblur="addReadOnly('pos'); " > </input>  <button class="btn btn-warning col-lg-1" id="editPos" type="button" onclick="enableDisable('pos')" style=" text-align:center;border-radius: 35px" > Edit  </button>  </div></div>
+                </div>
+
+                <div class="row col-lg-10 ">
+                   <h5> if Negative Response &#x2639;</h5>
+                   <div class="panel panel-default" > <div class="panel-body edittextPanel" > <input readonly required class="col-lg-11 input-hide" id="neg" name="negative" value=" I'm sorry to hear that, what do you dislike about &lt;productType&gt;" onblur="addReadOnly('neg'); "  > </input>
+                    <button class="btn btn-warning col-lg-1" id="editNeg" type="button" onclick="enableDisable('neg')" style=" text-align:center;border-radius: 35px" > Edit  </button> </div> </div>
+                </div>
+              
+            </div>
+        
+            </div>
+          
+         
+            </div>
+           
+        </div>
+        
+</form>
+    </div>
+
+     
+    <script src="{{ url_for('static',filename='dist/js/sb-admin-2.js') }}"></script>
+      
+    <script src="{{ url_for('static',filename='vendor/jquery/jquery.min.js') }}"></script>
+       
+    <script src="{{ url_for('static',filename='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+     
+</body>
+
+</html>
